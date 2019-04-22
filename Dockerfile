@@ -9,7 +9,8 @@ RUN apt-get install -y \
   telnet \
   htop \
   vim \
-  nano
+  nano \
+  dnsutils \
 
 # install nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
