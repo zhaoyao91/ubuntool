@@ -10,7 +10,7 @@ RUN apt-get install -y \
   htop \
   vim \
   nano \
-  dnsutils \
+  dnsutils
 
 # install nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
