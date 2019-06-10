@@ -19,6 +19,7 @@ ENV UBUNTOOL_COMMON_TOOLS "\
 
 ENV UBUNTOOL_NODE_GLOBAL_PACAKGES "\
     shelljs \
+    shx \
     fx \
 "
 
