@@ -1,24 +1,46 @@
-FROM ubuntu
+FROM docker:18.09 as docker
 
-RUN apt-get update -y
+FROM ubuntu:18.04
 
-RUN apt-get install -y \
-  iputils-ping \
-  curl \
-  wget \
-  telnet \
-  htop \
-  vim \
-  nano \
-  dnsutils
+# setup variables
 
-# install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+ENV UBUNTOOL_NODE_VERSION "12.x"
 
-# install node.js
-RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh; nvm install v10'
+ENV UBUNTOOL_COMMON_TOOLS "\
+    iputils-ping \
+    curl \
+    wget \
+    telnet \
+    htop \
+    vim \
+    nano \
+    dnsutils \
+"
 
-# install global node.js tools
-RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh; npm install -g \
-  fx \
-'
+ENV UBUNTOOL_NODE_GLOBAL_PACAKGES "\
+    shelljs \
+    fx \
+"
+
+ENV NODE_PATH "/usr/lib/node_modules"
+
+# execute setup process
+
+# install docker client
+COPY --from=docker /usr/local/bin/docker /usr/local/bin/
+
+# setup others
+RUN apt-get update -y && \
+    # install common tools
+    apt-get install -y $UBUNTOOL_COMMON_TOOLS && \
+    # install nodejs
+    curl -sL https://deb.nodesource.com/setup_$UBUNTOOL_NODE_VERSION | bash - && \
+    apt-get install -y nodejs && \
+    # install nodejs global packages
+    npm install -g $UBUNTOOL_NODE_GLOBAL_PACAKGES && \
+    # clean up
+    npm cache clean --force && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    # end
+    echo "setup finished"
