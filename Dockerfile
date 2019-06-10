@@ -13,7 +13,7 @@ RUN apt-get install -y \
   dnsutils
 
 # install nvm
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 
 # install node.js
 RUN /bin/bash -c 'source $HOME/.nvm/nvm.sh; nvm install v10'
